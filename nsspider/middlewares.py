@@ -13,7 +13,6 @@ class NsspiderSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
     # passed objects.
-    proxyList = ['http://218.75.158.153:3128', 'http://188.226.141.61:8080']
 
     @classmethod
     def from_crawler(cls, crawler):
