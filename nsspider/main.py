@@ -1,10 +1,10 @@
 import os
 import datetime
 from time import sleep
-
+NUM = 5 # times of scrapy
 if __name__ == '__main__':
     starttime = datetime.datetime.now()
-    for _ in range(2):
+    for _ in range(NUM):
         # os.system("scrapy crawl url-spider")
         os.system("scrapy crawl pic-spider")
     endtime = datetime.datetime.now()

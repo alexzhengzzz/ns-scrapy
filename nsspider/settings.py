@@ -54,8 +54,8 @@ DUPEFILTER_DEBUG=True
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
-    'nsspider.middlewares.NsspiderDownloaderMiddleware': 543,
     'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
+    'nsspider.middlewares.NsspiderDownloaderMiddleware': 543,
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,

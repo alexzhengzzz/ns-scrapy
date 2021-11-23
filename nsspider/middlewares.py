@@ -2,7 +2,7 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
+import base64
 from scrapy import signals
 
 # useful for handling different item types with a single interface
@@ -13,6 +13,7 @@ class NsspiderSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
     # passed objects.
+    proxyList = ['http://218.75.158.153:3128', 'http://188.226.141.61:8080']
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -80,6 +81,14 @@ class NsspiderDownloaderMiddleware:
         #   installed downloader middleware will be called
         return None
 
+    # 使用ip pool
+    # def process_request(self,request,spider):
+    #     proxy = "xxx.xxx.xxx.xxx:port"
+    #     # 设置代理的认证信息
+    #     auth = base64.b64encode(bytes("USERNAME:PASSWORD", 'utf-8'))
+    #     request.headers['Proxy-Authorization'] = b'Basic ' + auth
+    #     request.meta['proxy'] = 'http://' + proxy
+
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
 
@@ -101,3 +110,5 @@ class NsspiderDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+

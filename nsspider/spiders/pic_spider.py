@@ -1,4 +1,6 @@
 import logging
+import re
+
 import requests as requests
 import scrapy
 from scrapy_splash import SplashRequest
@@ -27,8 +29,11 @@ class PicSpider(scrapy.Spider):
     def pic_parse(self, response):
         print('---------collect picture from each url------------')
         print(response.url)
-        pics_suffix = response.css('img::attr(src)').getall()
-        pics_suffix = list(filter(lambda x: len(x) < 100, pics_suffix))
+        result_list = response.css('img::attr(src)').getall()
+        pics_suffix = []
+        for result in result_list:
+            if len(result) < 100 and not re.match('https*', result):
+                pics_suffix.append(result)
         img_urls = list(map(lambda x: BASEURL + x, pics_suffix))
         print(img_urls)
 
