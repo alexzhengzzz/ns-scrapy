@@ -1,3 +1,4 @@
+import logging
 import re
 import uuid
 from time import sleep
@@ -6,12 +7,12 @@ import scrapy
 from scrapy_splash import SplashRequest
 from faker import Faker
 from nsspider.items import PicItem
-
+logging.getLogger('faker').setLevel(logging.ERROR)
 BASEURL = "https://szszet.com"
 BASEURL_WITH_SLASH = "https://szszet.com/"
 
 
-class UrlSpider(scrapy.Spider):
+class PicSpider(scrapy.Spider):
     name = 'pic-spider'
 
     def start_requests(self):
@@ -20,8 +21,9 @@ class UrlSpider(scrapy.Spider):
             for line in f.readlines():
                 urls.append(line.strip('\n'))
         print(urls)
+        # timeout 时间随网络情况而定30 20 10
         for url in urls:
-            yield SplashRequest(args={'images': 1, 'timeout': 20, 'wait': 20}, url=url, callback=self.pic_parse,
+            yield SplashRequest(args={'images': 1, 'timeout': 30, 'wait': 20}, url=url, callback=self.pic_parse,
                                 dont_filter=True)
 
     def pic_parse(self, response):
