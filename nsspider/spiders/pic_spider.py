@@ -1,7 +1,6 @@
 import re
 import uuid
 from time import sleep
-
 import requests as requests
 import scrapy
 from scrapy_splash import SplashRequest
@@ -12,26 +11,18 @@ BASEURL = "https://szszet.com"
 BASEURL_WITH_SLASH = "https://szszet.com/"
 
 
-class SzSpider(scrapy.Spider):
-    name = 'sz-spider'
+class UrlSpider(scrapy.Spider):
+    name = 'pic-spider'
 
     def start_requests(self):
-        start_urls = ['https://szszet.com/#/index', ]
-        # deal with the front-end render
-        for url in start_urls:
-            yield SplashRequest(url=url, callback=self.url_parse)
-
-    # extract all the route of the website
-    def url_parse(self, response):
-        print("-----------------start scraping-------------------")
-        print("-----------------collecting all the urls -------------------")
-        hrefs = response.css("a::attr(href)").getall()
-        page_suffix_list = list(set(list(filter(lambda x: re.match('#/*', x) is not None, hrefs))))
-        urls = list(map(lambda x: BASEURL_WITH_SLASH + x, page_suffix_list))
+        urls = []
+        with open("./resource/url.txt", "r") as f:
+            for line in f.readlines():
+                urls.append(line.strip('\n'))
+        print(urls)
         for url in urls:
             yield SplashRequest(args={'images': 1, 'timeout': 20, 'wait': 20}, url=url, callback=self.pic_parse,
                                 dont_filter=True)
-        print("-----------------finish collecting all the urls -------------------")
 
     def pic_parse(self, response):
         print('---------collect picture from each url------------')
