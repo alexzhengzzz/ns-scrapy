@@ -13,3 +13,5 @@ random User-Agent
 random_headers = response.request.headers['User-Agent']
 headers = {'User-Agent': random_headers}
 print(headers)
+
+ls -l | grep "^-" | wc -l

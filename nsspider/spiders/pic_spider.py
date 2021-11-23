@@ -1,12 +1,10 @@
 import logging
-import re
-import uuid
-from time import sleep
 import requests as requests
 import scrapy
 from scrapy_splash import SplashRequest
 from faker import Faker
-from nsspider.items import PicItem
+from nsspider.items import ImgsItem
+
 logging.getLogger('faker').setLevel(logging.ERROR)
 BASEURL = "https://szszet.com"
 BASEURL_WITH_SLASH = "https://szszet.com/"
@@ -23,7 +21,7 @@ class PicSpider(scrapy.Spider):
         print(urls)
         # timeout 时间随网络情况而定30 20 10
         for url in urls:
-            yield SplashRequest(args={'images': 1, 'timeout': 30, 'wait': 20}, url=url, callback=self.pic_parse,
+            yield SplashRequest(args={'images': 1, 'timeout': 50, 'wait': 20}, url=url, callback=self.pic_parse,
                                 dont_filter=True)
 
     def pic_parse(self, response):
@@ -34,15 +32,22 @@ class PicSpider(scrapy.Spider):
         img_urls = list(map(lambda x: BASEURL + x, pics_suffix))
         print(img_urls)
 
+
+        if img_urls:
+            item = ImgsItem()
+            item['image_urls'] = img_urls
+            yield item
+
+
         # download the pictures
-        file_path = './pic/'
-        for img_url in img_urls:
-            file_name = uuid.uuid4().hex
-            full_picture_name = file_path + file_name + ".jpg"
+        # file_path = './pic/'
+        # for img_url in img_urls:
+        #     file_name = uuid.uuid4().hex
+        #     full_picture_name = file_path + file_name + ".jpg"
             # print(file_path + file_name + ".jpg")
-            download(full_picture_name, img_url)
+            # download(full_picture_name, img_url)
 
-
+# deprecated
 def download(file_path, picture_url):
     # fake header
     fake = Faker()

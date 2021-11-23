@@ -69,10 +69,11 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'nsspider.pipelines.NsspiderPipeline': 300,
-#}
-
+ITEM_PIPELINES = {
+   'nsspider.pipelines.ImgDownloadPipeline': 300,
+}
+IMAGES_STORE = './pic'
+# IMAGES_EXPIRES = 90
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 AUTOTHROTTLE_ENABLED = True
