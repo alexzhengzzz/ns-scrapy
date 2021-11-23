@@ -1,0 +1,15 @@
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36 Edg/93.0.961.44',
+
+}
+
+URL_LIST = ['https://szszet.com/#/product', 'https://szszet.com/#/story', 'https://szszet.com/#/honour',
+            'https://szszet.com/#/us', 'https://szszet.com/#/index', 'https://szszet.com/#/partner',
+            'https://szszet.com/#/solution']
+URL_TEST_LIST = ['https://szszet.com/#/solution']
+
+
+random User-Agent
+random_headers = response.request.headers['User-Agent']
+headers = {'User-Agent': random_headers}
+print(headers)
