@@ -3,11 +3,11 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import base64
+
 from scrapy import signals
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
-
 
 class NsspiderSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -35,7 +35,6 @@ class NsspiderSpiderMiddleware:
         # Must return an iterable of Request, or item objects.
         for i in result:
             yield i
-
     def process_spider_exception(self, response, exception, spider):
         # Called when a spider or process_spider_input() method
         # (from other spider middleware) raises an exception.
@@ -80,14 +79,6 @@ class NsspiderDownloaderMiddleware:
         #   installed downloader middleware will be called
         return None
 
-    # 使用ip pool
-    # def process_request(self,request,spider):
-    #     proxy = "xxx.xxx.xxx.xxx:port"
-    #     # 设置代理的认证信息
-    #     auth = base64.b64encode(bytes("USERNAME:PASSWORD", 'utf-8'))
-    #     request.headers['Proxy-Authorization'] = b'Basic ' + auth
-    #     request.meta['proxy'] = 'http://' + proxy
-
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
 
@@ -95,6 +86,7 @@ class NsspiderDownloaderMiddleware:
         # - return a Response object
         # - return a Request object
         # - or raise IgnoreRequest
+        # print("ip: ", response.text)
         return response
 
     def process_exception(self, request, exception, spider):

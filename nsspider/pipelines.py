@@ -1,8 +1,16 @@
+import hashlib
+import uuid
+
+import requests
 from fake_useragent import UserAgent
 from itemadapter import ItemAdapter
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy.exceptions import DropItem
 from scrapy import Request
+from scrapy.utils.python import to_bytes
+
+def get_proxy():
+    return requests.get("http://127.0.0.1:5010/get?type=http").json()
 
 
 class ImgsPipeline(object):
@@ -22,7 +30,11 @@ class ImgDownloadPipeline(ImagesPipeline):
         for image_url in item['image_urls']:
             ua = UserAgent()
             self.default_headers['User-Agent'] = ua.random
-            yield Request(image_url, headers=self.default_headers)
+            req = Request(image_url, headers=self.default_headers)
+            proxy_str = "http://{0}".format(get_proxy()['proxy'])
+            print(proxy_str)
+            req.meta["proxy"] = proxy_str
+            yield req
 
     def item_completed(self, results, item, info):
         image_paths = [x['path'] for ok, x in results if ok]
@@ -31,3 +43,7 @@ class ImgDownloadPipeline(ImagesPipeline):
         adapter = ItemAdapter(item)
         adapter['image_paths'] = image_paths
         return item
+
+    def file_path(self, request, response=None, info=None, *, item=None):
+        image_guid = hashlib.sha1(to_bytes(request.url)).hexdigest() + uuid.uuid4().hex
+        return f'full/{image_guid}.jpg'

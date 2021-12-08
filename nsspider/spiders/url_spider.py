@@ -2,15 +2,15 @@ import re
 import scrapy
 from scrapy_splash import SplashRequest
 
-BASEURL = "https://szszet.com"
-BASEURL_WITH_SLASH = "https://szszet.com/"
+BASEURL = "https://www.szszet.one"
+BASEURL_WITH_SLASH = "https://www.szszet.one/"
 
 
 class UrlSpider(scrapy.Spider):
     name = 'url-spider'
 
     def start_requests(self):
-        start_urls = ['https://szszet.com/#/index', ]
+        start_urls = ['https://www.szszet.com/#/index', ]
         # deal with the front-end render
         for url in start_urls:
             yield SplashRequest(url=url, callback=self.url_parse)
